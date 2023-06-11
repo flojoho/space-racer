@@ -1,8 +1,8 @@
 import './style.css';
 import Screen from './Screen';
-import Vector from './Vector';
 import projectPoints from './Projector';
 import Camera from './Camera';
+import Point from './Point';
 
 const fps = 60;
 
@@ -12,21 +12,24 @@ type pressedKeys = {
 
 const pressedKeys: pressedKeys = {};
 
-const randomCubeVector = () => {
-  const size = 10000;
-  return new Vector(
+const randomCubePoint = () => {
+  const size = 10_000;
+  return new Point(
     size * (Math.random() - 0.5),
     size * (Math.random() - 0.5),
-    size * (Math.random() - 0.5)
+    size * (Math.random() - 0.5),
+    1
   )
 }
 
-const points = Array.from({length: 1000}, randomCubeVector );
+const stars = Array.from({length: 1000}, randomCubePoint );
+
+const grid: Point[] = [];
 
 const gridSize = 50;
 for(let i = -gridSize; i <= gridSize; i+=4) {
   for(let j = -gridSize; j <= gridSize; j+=4) {
-    points.push(new Vector(i - 5000, j - 5000, 4999));
+    grid.push(new Point(i - 5000, j - 5000, 4999, 1));
   }
 }
 
@@ -46,6 +49,11 @@ setInterval(() => {
   }
 
   Camera.update();
+
+  const points = [
+    ...grid,
+    ...stars
+  ]
 
   Screen.renderPoints(projectPoints(points));
 }, 1000/fps);
