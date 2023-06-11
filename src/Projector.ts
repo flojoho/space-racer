@@ -6,18 +6,6 @@ const cameraTranslation = (points: Point[]) => {
   const camPos = Camera.getPosition();
   for(const point of points) {
     point.position.set(camPos.to(point.position));
-
-    const { x, y, z } = point.position;
-    const scale = 10000;
-    const mod = (number: number, divider: number) => {
-      const modResult = number % divider;
-      return modResult > 0 ? modResult : (divider + modResult);
-    }
-    point.position.set(new Vector(
-      mod(x, scale) - scale/2,
-      mod(y, scale) - scale/2,
-      mod(z, scale) - scale/2
-    ));
   }
 }
 
