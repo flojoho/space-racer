@@ -1,9 +1,9 @@
-import Camera from './Camera';
+import Camera from './Camera.ts';
 import Point from './Point.ts';
 import Vector from './Vector.ts';
 
 
-export default class RepeatBox {
+export default class Repeater {
   private points: Point[];
   private size: Number;
 
