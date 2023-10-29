@@ -1,4 +1,5 @@
 import Vector from './Vector';
+import { ProjectionObject } from './Projector';
 
 const canvas = document.getElementById('canvas') as HTMLCanvasElement;
 
@@ -21,40 +22,29 @@ type ImagePoints = {
 const focalLength = 1000;
 const focalDistance = 30;
 
-const renderPoints = (points: ImagePoints[]) => {
+const renderPoints = (projectionObjects: ProjectionObject[]) => {
   ctx.fillStyle = "rgb(0, 0, 0)";
   ctx.fillRect(0, 0, width, height);
 
-  for(const point of points) {
-    const { position, distance } = point;
-    const {x, y} = position;
+  for(const projectionObject of projectionObjects) {
+    const { projection, visible } = projectionObject;
+    const { position } = projection;
+    let {x, y, z} = position;
 
-    // ctx.fillStyle = `rgba(0, 255, 0, 0.2)`;
-    // fillCircle(
-    //   focalLength * x + width / 2,
-    //   -focalLength * y + height / 2,
-    //   100/distance + 7*Math.abs(distance - focalDistance)/distance
-    // );
-
-    // ctx.fillStyle = `rgba(0, 255, 0, ${ 10/distance })`;
-    // fillCircle(
-    //   focalLength * x + width / 2,
-    //   -focalLength * y + height / 2,
-    //   100/distance
-    // );
+    if(!visible) continue;
 
     const canvasX = focalLength * x + width / 2;
     const canvasY = -focalLength * y + height / 2;
 
-    const innerRadius = 50/distance;
-    const outerRadius = 50/distance + 5 * Math.abs(distance - focalDistance)/distance;
+    const innerRadius = 50/z;
+    const outerRadius = 50/z + 5 * Math.abs(z - focalDistance)/z;
 
     const gradient = ctx.createRadialGradient(
       canvasX, canvasY, innerRadius,
       canvasX, canvasY, outerRadius
     );
-    gradient.addColorStop(0, `rgba(0, 255, 0, ${ Math.max(1 * 20/distance, 0.25) })`);
-    gradient.addColorStop(1, `rgba(0, 255, 0, ${ distance < focalDistance ? 0 : 0.3 })`);
+    gradient.addColorStop(0, `rgba(0, 255, 0, ${ Math.max(1 * 20/z, 0.25) })`);
+    gradient.addColorStop(1, `rgba(0, 255, 0, ${ z < focalDistance ? 0 : 0.3 })`);
     ctx.fillStyle = gradient;
     fillCircle(
       canvasX,
