@@ -1,4 +1,3 @@
-import Vector from './Vector';
 import { ProjectionObject } from './Projector';
 
 const canvas = document.getElementById('canvas') as HTMLCanvasElement;
@@ -14,12 +13,6 @@ const fillCircle = (x: number, y: number, r: number) => {
   ctx.fill();
 }
 
-type ImagePoints = {
-  position: Vector,
-  distance: number
-}
-
-const focalLength = 1000;
 const focalDistance = 30;
 
 const renderPoints = (projectionObjects: ProjectionObject[]) => {
@@ -27,15 +20,29 @@ const renderPoints = (projectionObjects: ProjectionObject[]) => {
   ctx.fillRect(0, 0, width, height);
 
   for(const projectionObject of projectionObjects) {
-    const { projection, visible } = projectionObject;
+    const { projection, visible, previousProjection } = projectionObject;
     const { position } = projection;
     let {x, y, z} = position;
 
     if(!visible) continue;
 
-    const canvasX = focalLength * x + width / 2;
-    const canvasY = -focalLength * y + height / 2;
+    const canvasX = x;
+    const canvasY = y;
 
+
+    if(previousProjection) {
+      const { x: prevX, y: prevY } = previousProjection;
+
+      ctx.beginPath();
+      ctx.moveTo(prevX, prevY);
+      ctx.lineTo(x, y);
+      ctx.stroke();
+    }
+
+
+
+
+    // circles + blur
     const innerRadius = 50/z;
     const outerRadius = 50/z + 5 * Math.abs(z - focalDistance)/z;
 
@@ -55,4 +62,4 @@ const renderPoints = (projectionObjects: ProjectionObject[]) => {
   }
 }
 
-export default { renderPoints };
+export default { renderPoints, width, height };

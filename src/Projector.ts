@@ -1,6 +1,7 @@
 import Vector from './Vector';
 import Camera from './Camera';
 import Point from './Point';
+import Screen from './Screen';
 
 export type ProjectionObject = {
   point: Point,
@@ -40,6 +41,8 @@ const removePointsBehindCamera = (projectionObjects: ProjectionObject[]) => {
   }
 }
 
+const focalLength = 1000;
+
 const projectOntoSensor = (projectionObjects: ProjectionObject[]) => {
   for(const projectionObject of projectionObjects) {
     const { projection } = projectionObject;
@@ -48,7 +51,10 @@ const projectOntoSensor = (projectionObjects: ProjectionObject[]) => {
     const sensorX = x/y;
     const sensorY = z/y;
 
-    projectionObject.projection = new Point(sensorX, sensorY, y, projection.size);
+    const canvasX = focalLength * sensorX + Screen.width / 2;
+    const canvasY = -focalLength * sensorY + Screen.height / 2;
+
+    projectionObject.projection = new Point(canvasX, canvasY, y, projection.size);
   }
 }
 
