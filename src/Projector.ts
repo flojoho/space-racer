@@ -37,7 +37,9 @@ const removePointsBehindCamera = (projectionObjects: ProjectionObject[]) => {
   for(const projectionObject of projectionObjects) {
     const { projection } = projectionObject;
 
-    projectionObject.visible = projection.position.y > 0;
+    const visible = projection.position.y > 0
+
+    projectionObject.visible = visible;
   }
 }
 
