@@ -45,7 +45,7 @@ const focalLength = 1000;
 
 const projectOntoSensor = (projectionObjects: ProjectionObject[]) => {
   for(const projectionObject of projectionObjects) {
-    const { projection } = projectionObject;
+    const { projection, point } = projectionObject;
 
     const { x, y, z } = projection.position;
     const sensorX = x/y;
@@ -54,6 +54,7 @@ const projectOntoSensor = (projectionObjects: ProjectionObject[]) => {
     const canvasX = focalLength * sensorX + Screen.width / 2;
     const canvasY = -focalLength * sensorY + Screen.height / 2;
 
+    point.previousProjection = new Vector(canvasX, canvasY, y);
     projectionObject.projection = new Point(canvasX, canvasY, y, projection.size);
   }
 }
@@ -62,6 +63,7 @@ const projectPoints = (points: Point[]) => {
   let projectionObjects = points.map(point => {
     const { position, size } = point;
     const { x, y, z } = position;
+
     return {
       point,
       projection: new Point(x, y, z, size),

@@ -33,6 +33,9 @@ const renderPoints = (projectionObjects: ProjectionObject[]) => {
     if(previousProjection) {
       const { x: prevX, y: prevY } = previousProjection;
 
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineCap = 'round';
+      ctx.lineWidth = 3;
       ctx.beginPath();
       ctx.moveTo(prevX, prevY);
       ctx.lineTo(x, y);
@@ -41,7 +44,7 @@ const renderPoints = (projectionObjects: ProjectionObject[]) => {
 
 
 
-
+    continue;
     // circles + blur
     const innerRadius = 50/z;
     const outerRadius = 50/z + 5 * Math.abs(z - focalDistance)/z;

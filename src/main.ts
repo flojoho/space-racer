@@ -26,13 +26,14 @@ const stars = Array.from({length: 1000}, randomCubePoint );
 const starRepeater = new Repeater(stars, 10_000);
 
 const grid: Point[] = [];
-const gridSize = 50;
-for(let i = -gridSize; i <= gridSize; i+=4) {
-  for(let j = -gridSize; j <= gridSize; j+=4) {
+const gridSize = 200;
+const gridStep = 10;
+for(let i = -gridSize; i <= gridSize; i+=gridStep) {
+  for(let j = -gridSize; j <= gridSize; j+=gridStep) {
     grid.push(new Point(i, j, -1, 1));
   }
 }
-const gridRepeater = new Repeater(grid, 100);
+const gridRepeater = new Repeater(grid, 2*gridSize);
 
 
 setInterval(() => {
