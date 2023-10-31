@@ -26,8 +26,9 @@ const stars = Array.from({length: 1000}, randomCubePoint );
 const starRepeater = new Repeater(stars, 10_000);
 
 const grid: Point[] = [];
-const gridSize = 200;
-const gridStep = 10;
+const gridSize = 500;
+const gridSteps = 20;
+const gridStep = gridSize/gridSteps;
 for(let i = -gridSize; i <= gridSize; i+=gridStep) {
   for(let j = -gridSize; j <= gridSize; j+=gridStep) {
     grid.push(new Point(i, j, -1, 1));

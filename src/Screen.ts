@@ -15,6 +15,18 @@ const fillCircle = (x: number, y: number, r: number) => {
 
 const focalDistance = 30;
 
+const lineWidthFromDistance = (distance: number) => {
+  const minWidth = 2;
+  const maxWidth = 20;
+
+  const lineWidth = 150/distance;
+
+  if(lineWidth < minWidth) return minWidth;
+  if(lineWidth > maxWidth) return maxWidth;
+
+  return lineWidth;
+};
+
 const renderPoints = (projectionObjects: ProjectionObject[]) => {
   ctx.fillStyle = "rgb(0, 0, 0)";
   ctx.fillRect(0, 0, width, height);
@@ -35,7 +47,7 @@ const renderPoints = (projectionObjects: ProjectionObject[]) => {
 
       ctx.strokeStyle = '#ffffff';
       ctx.lineCap = 'round';
-      ctx.lineWidth = 3;
+      ctx.lineWidth = lineWidthFromDistance(z);
       ctx.beginPath();
       ctx.moveTo(prevX, prevY);
       ctx.lineTo(x, y);
