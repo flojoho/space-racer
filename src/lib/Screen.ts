@@ -11,7 +11,7 @@ const getWidth = () => {
 }
 
 const getHeight = () => {
-  return canvas.width;
+  return canvas.height;
 }
 
 const fillCircle = (x: number, y: number, r: number, ctx: CanvasRenderingContext2D) => {
