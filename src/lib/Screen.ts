@@ -1,13 +1,20 @@
-import { ProjectionObject } from './Projector';
+import type { ProjectionObject } from './Projector';
 
-const canvas = document.getElementById('canvas') as HTMLCanvasElement;
+let canvas: HTMLCanvasElement;
 
-const width = 1280;
-const height = 720;
+const injectCanvas = (injectedCanvas: HTMLCanvasElement) => {
+  canvas = injectedCanvas;
+}
 
-const ctx = canvas.getContext('2d')!;
+const getWidth = () => {
+  return canvas.width;
+}
 
-const fillCircle = (x: number, y: number, r: number) => {
+const getHeight = () => {
+  return canvas.width;
+}
+
+const fillCircle = (x: number, y: number, r: number, ctx: CanvasRenderingContext2D) => {
   ctx.beginPath();
   ctx.arc(x, y, r, 0, 2 * Math.PI);
   ctx.fill();
@@ -27,9 +34,11 @@ const lineWidthFromDistance = (distance: number) => {
   return lineWidth;
 };
 
-const renderPoints = (projectionObjects: ProjectionObject[]) => {
+const renderPoints = (projectionObjects: ProjectionObject[], canvas: HTMLCanvasElement) => {
+  const ctx = canvas.getContext('2d')!;
+  
   ctx.fillStyle = "rgb(0, 0, 0)";
-  ctx.fillRect(0, 0, width, height);
+  ctx.fillRect(0, 0, getWidth(), getHeight());
 
   for(const projectionObject of projectionObjects) {
     const { projection, visible, previousProjection } = projectionObject;
@@ -71,10 +80,11 @@ const renderPoints = (projectionObjects: ProjectionObject[]) => {
     fillCircle(
       canvasX,
       canvasY,
-      outerRadius
+      outerRadius,
+      ctx
     );
 
   }
 }
 
-export default { renderPoints, width, height };
+export default { renderPoints, injectCanvas, getWidth, getHeight };
