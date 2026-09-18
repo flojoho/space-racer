@@ -11,7 +11,6 @@ type pressedKeys = {
 }
 const pressedKeys: pressedKeys = {};
 
-
 const randomCubePoint = () => {
   const size = 10_000;
   return new Point(
@@ -87,7 +86,6 @@ const startAnimation = (canvas: HTMLCanvasElement) => {
       clearInterval(interval);
     }
   };
-
 };
 
 export default startAnimation;
