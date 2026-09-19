@@ -24,7 +24,8 @@ export default class Repeater {
     this.uniquePoints = points.map(point => {
       return {
         point,
-        sector: new Vector(0, 0, 0)
+        sector: new Vector(0, 0, 0),
+        visible: false
       }
     });
     this.size = size;

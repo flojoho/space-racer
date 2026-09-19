@@ -47,9 +47,7 @@ const startAnimation = (canvas: HTMLCanvasElement) => {
 
   resize();
 
-
   const interval = setInterval(() => {
-
     if(pressedKeys['ArrowLeft']) {
       Camera.increaseRotation(0.02);
     } else if (pressedKeys['ArrowRight']) {

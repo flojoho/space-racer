@@ -36,23 +36,26 @@ const lineWidthFromDistance = (distance: number) => {
 
 const renderPoints = (projectionObjects: ProjectionObject[], canvas: HTMLCanvasElement) => {
   const ctx = canvas.getContext('2d')!;
+
+  const motionBlurFactor = 0.6;
   
-  ctx.fillStyle = "rgb(0, 0, 0)";
+  ctx.fillStyle = `rgba(0, 0, 0, ${ 1 - motionBlurFactor })`;
   ctx.fillRect(0, 0, getWidth(), getHeight());
 
   for(const projectionObject of projectionObjects) {
     const { projection, visible, previousProjection } = projectionObject;
     const { position } = projection;
-    let {x, y, z} = position;
+    let { x, y, z } = position;
 
     if(!visible) continue;
 
     const canvasX = x;
     const canvasY = y;
 
-
     if(previousProjection) {
-      const { x: prevX, y: prevY } = previousProjection;
+      const { x: prevX, y: prevY, z: prevZ } = previousProjection;
+
+      if(prevZ < 0) continue;
 
       ctx.strokeStyle = '#ffffff';
       ctx.lineCap = 'round';
